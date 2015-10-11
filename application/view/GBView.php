@@ -83,6 +83,7 @@ class GBView {
 		$html .= 	
 	'</div>
 	</div>
+	<a class ="footer" href="index.php">На главную</a>
 </body>';
 		
 		echo $html;

@@ -58,8 +58,15 @@ class GBModel {
 	}
 
 	function __construct(){
-		if($this->connect()){
-			$query = 
+		$this->connection = new mysqli(self::$host, self::$user, self::$password);
+		$query = 'CREATE DATABASE IF NOT EXISTS '. 
+				self::$db_name .' CHARACTER SET utf8 COLLATE utf8_general_ci';
+		if(!$this->sql($query)){
+				$this->error("Ошибка инициализации таблицы.");
+				return;
+			}
+		$this->connection->select_db(self::$db_name);
+		$query = 
 'CREATE TABLE IF NOT EXISTS '. self::$table_name .' (
 id INT(11) NOT NULL AUTO_INCREMENT,
 user_name VARCHAR(25) NOT NULL,
@@ -71,11 +78,11 @@ user_agent VARCHAR(255) NOT NULL,
 post_time DATETIME NOT NULL,
 PRIMARY KEY(id)
 ) ENGINE = InnoDB';
-			if(!$this->sql($query)){
-				$this->error("Ошибка инициализации таблицы.");
-			}
-			$this->disconnect();
+		if(!$this->sql($query)){
+			$this->error("Ошибка инициализации таблицы.");
 		}
+		$this->disconnect();
+		
 	}
 
 //ИНТЕРФЕЙС МОДЕЛИ
