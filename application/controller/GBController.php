@@ -2,7 +2,7 @@
 
 class GBController {
 
-	const POST_PER_PAGE = 5;
+	const POST_PER_PAGE = 25;
 	
 	private $model;
 	private $view;
@@ -82,7 +82,15 @@ class GBController {
 			return;
 		}
 		//проверка на допустимые значения
-		if(!preg_match('/^.+@.+\..+$/i',$email)){
+		if(!preg_match('/^[0-9a-zA-Z]+$/',$name)){
+			$this->page(Array('name'=>'Имя может состоять только из латинских букв и цифр.'),$lastdata);
+			return;
+		}
+		if($homepage and !preg_match('/^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6})(\/[\w\.]*)*\/?$/',$homepage)){
+			$this->page(Array('homepage'=>'Неправильный URL.'),$lastdata);
+			return;
+		}
+		if(!preg_match('/^.+@.+\..+$/',$email)){
 			$this->page(Array('email'=>'Проверьте правильность ввода E-mail.'),$lastdata);
 			return;
 		}
