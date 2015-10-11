@@ -14,14 +14,6 @@ h1 {
 	background: #5ad;
 	box-shadow: 2px 2px 15px #999;
 }
-a {
-	font-weight: bold;
-	color: #fff;
-	padding: 8px;
-	background: #5df;
-	box-shadow: 2px 2px 10px #ccc;
-	text-decoration: none;
-}
 .post-form {
 	background: #fd4;
 	padding: 20px 0;
@@ -55,20 +47,43 @@ a {
 	left: 0;
 	text-align: right;
 }
-.sort {
-	text-align: right;
-	margin: 30px 0;
+.menu {
+	margin: 30px 0 20px;
+	height: 35px;
 }
-.active {
+.menu a {
+	margin-right: 8px;
+	font-weight: bold;
+	color: #fff;
+	padding: 8px;
+	background: #5df;
+	box-shadow: 2px 2px 10px #ccc;
+	text-decoration: none;
+}
+.menu a:hover {
+	padding: 10px;
+}
+.nav {
+	float: left;
+}
+.nav a {
+	background: #49a;
+	font-size: 1.1em;
+}
+.sort {
+	float: right;
+	text-align: right;
+}
+a.active {
 	color: #fd4;
 	padding: 10px;
 	background: #5ad;
 	box-shadow: 2px 2px 15px #999;
 }
-.dir {
+a.dir {
 	background: #49a;
 }
-.active.dir {
+a.active.dir {
 	background: #379;
 }
 .error {

@@ -1,6 +1,8 @@
 <?php
 
 class GBController {
+
+	const POST_PER_PAGE = 5;
 	
 	private $model;
 	private $view;
@@ -9,6 +11,7 @@ class GBController {
 		$this->model = new GBModel();
 		$this->view = new GBView();
 	}
+
 	//точка входа
 	public function index(){
 		if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -18,6 +21,7 @@ class GBController {
 			$this->page();
 		}
 	}
+
 	//вывод страницы
 	public function page($error = Array(), $lastdata = Array() ){
 		$page = isset($_GET['page'])? intval($_GET['page']) : 1;
@@ -29,9 +33,16 @@ class GBController {
 		$dir = isset($_GET['dir'])? $_GET['dir'] : 'desc';
 		if($dir!='asc' and $dir!='desc')
 			$dir = 'desc';
-		$list = $this->model->get_list($sort_by,$dir,25*($page-1),25);
-		$this->view->show($list,$sort_by,$dir,$error,$lastdata);
+		$list = $this->model->get_list($sort_by,$dir,self::POST_PER_PAGE*($page-1),self::POST_PER_PAGE);
+		$post_count = $this->model->count();
+		//массив $nav содержит информацию есть ли предыдущая и следующая страницы и номер текущей страницы
+		$nav = Array( 
+			'prev'=>($page>1),
+			'next'=>($post_count > self::POST_PER_PAGE*$page),
+			'page'=>$page );
+		$this->view->show($list,$sort_by,$dir,$error,$lastdata,$nav);
 	}
+
 	//обработка сообщения
 	public function post(){
 		//получение полей и их первичная обработка

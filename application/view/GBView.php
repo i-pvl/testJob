@@ -2,7 +2,9 @@
 
 class GBView {
 	
-	public function show($post_list,$sort_by = 'time',$dir = 'desc',$error = Array(),$lastdata = Array()) {
+	public function show($post_list,$sort_by = 'time',$dir = 'desc',
+						$error = Array(),$lastdata = Array(),
+						$nav = Array('prev'=>false,'next'=>false,'page'=>1)) {
 		
 		$html = '<!DOCTYPE html>
 <html>
@@ -37,21 +39,33 @@ class GBView {
 			$html .= '<p><span class="error">'.$error['text'].'</span></p>'; 
 		$html .= '<p><input type="submit" value="Отправить"></p></form>
 	</div>
-	<div class="sort">
-		Сортировать ';
+	<div class="menu">
+		<div class="nav">';
+		//навигация по страницам: предыдущая/следующая
+		if($nav['prev']){
+			$html .= '<a href="guestbook.php?page='.($nav['page']-1).
+				'&sort='.$sort_by.'&dir='.$dir.'">&lt;</a>';
+		}
+		if($nav['next']){
+			$html .= '<a href="guestbook.php?page='.($nav['page']+1).
+				'&sort='.$sort_by.'&dir='.$dir.'">&gt;</a>';
+		}
+
+		$html .= '</div><div class="sort">Сортировать ';
 		//$sort_by содержит текущую сортировку
 		//$dir содержит текущее направление сортировки
 		$sort_types = Array('name'=>'по имени','email'=>'по e-mail','time'=>'по дате');
 		foreach($sort_types as $type => $text){
 			$html .= '<a href="guestbook.php?page=1&sort='.$type.'&dir='.$dir.'" '.
-				(($type==$sort_by)?'class="active">':'>').$text.'</a> ';
+				(($type==$sort_by)?'class="active">':'>').$text.'</a>';
 		}
 		$html .= '<a href="guestbook.php?page=1&sort='.$sort_by.'&dir=asc" '.
-				(($dir=='asc')?'class="active dir">':'class="dir">').'по возростанию</a> ';
+				(($dir=='asc')?'class="active dir">':'class="dir">').'по возростанию</a>';
 		$html .= '<a href="guestbook.php?page=1&sort='.$sort_by.'&dir=desc" '.
 				(($dir=='desc')?'class="active dir">':'class="dir">').'по убыванию</a>';
 		$html .= 
-	'</div>
+		'</div>
+	</div>
 	<div class="list">';
 		//$post_list содержит объект mysqli_result с текущей страницей
 		//или FALSE если данные не были получены

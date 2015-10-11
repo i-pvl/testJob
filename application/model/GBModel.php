@@ -19,7 +19,7 @@ class GBModel {
 	//обработка ошибки (для отладки и администрирования)
 	private function error($etext){
 		$error = $etext;
-		die($error);
+		//die($error);
 		//TODO запись ошибки в лог
 	}
 	
@@ -134,6 +134,16 @@ PRIMARY KEY(id)
 			return $result;
 		}
 		return false;
+	}
+	//количество сообщений в базе
+	public function count(){
+		if($this->connect()){
+			$result = $this->sql("SELECT COUNT(*) AS num FROM ".self::$table_name);
+			$this->disconnect();
+			if($result)
+				return intval($result->fetch_assoc()['num']);
+		}
+		return 0;
 	}
 }
 ?>
